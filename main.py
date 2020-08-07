@@ -162,7 +162,7 @@ class MyWindow(QMainWindow):
         self.msg.setText("Aplicativo para aplicação de filtros")
         self.msg.setWindowTitle("Sobre")
         self.msg.setInformativeText("Santa Vitoria - MG | 07 de Agosto de 2020")
-        self.msg.setDetailedText("Criado por Gideone Clementino da Silva" + "\n" + "Link aula abaixo" + "\n" + "https://youtu.be/aAzlDi474e0")
+        self.msg.setDetailedText("Criado por Gideone Clementino da Silva" + "\n" + "Link video apresentação abaixo" + "\n" + "https://youtu.be/aAzlDi474e0")
         self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         self.msg.exec_()
         self.reply = self.msg.clickedButton()
