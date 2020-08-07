@@ -1,0 +1,118 @@
+    def salvar_como(self):
+        fileName, _ = QtWidgets.QFileDialog.getSaveFileName(self, caption='Save image', directory=QtCore.QDir.currentPath(), filter='All files (*.*);;Images (*.ppm; *.pgm;*.pbm)', initialFilter='Images (*ppm; *,pgm; *.pbm)')
+        if fileName != '':
+            string = self.endereco2                
+            self.particao = string.rpartition('.')                    
+            try:               
+                entrada = open(self.endereco2, "r+")
+                saida = open(fileName, "w+")
+
+                if (self.particao[2] == 'ppm'):
+                    linha = entrada.readline() #P3
+                    linha = entrada.readline() #Comentário
+                    linha = entrada.readline() #Dimensões
+                    dimensoes = linha.split()
+                    largura = int(dimensoes[0])
+                    altura = int(dimensoes[1])
+                    linha = entrada.readline() #Valor fixo
+                    linha = entrada.readlines() #Ler o restante do arquivo e grava como lista
+
+                    #converter de lista para array
+                    imagem = np.asarray(linha, dtype=int)
+                    #reshape
+                    imagem = np.reshape(imagem, (altura, largura, 3))                
+                    #escrevendo a imagem cópia
+                    saida.write("P3\n")
+                    saida.write("#Criado por Gideone\n")
+                    saida.write(str(largura))
+                    saida.write(" ")
+                    saida.write(str(altura))
+                    saida.write("\n")
+                    saida.write("255\n")
+                    #fazer a cópia
+                    for i in range(len(imagem)):
+                        for j in range(len(imagem[1])):
+                            for k in range(3):
+                                sum = imagem[i][j][k]
+                                sum = str(sum)
+                                saida.write(sum)
+                                saida.write("\n")  
+
+                elif (self.particao[2] == 'pgm'):
+                    linha = entrada.readline() #P2
+                    linha = entrada.readline() #comentário
+                    linha = entrada.readline() #Dimensões
+                    dimensoes = linha.split()
+                    largura = dimensoes[0]
+                    altura = dimensoes[1]
+                    linha = entrada.readline() #Valor fixo
+                    linha = entrada.readlines() # ler o restante do arquivo e grava como lista
+                    imagem = np.asarray(linha, dtype=int)
+                   
+                    #escrevendo a imagem cópia
+                    saida.write("P2\n")
+                    saida.write("#Criado por Gideone\n")
+                    saida.write(str(largura))
+                    saida.write(" ")
+                    saida.write(str(altura))
+                    saida.write("\n")
+                    saida.write("255\n")   
+                    
+                    #fazer a cópia
+                    for i in range(len(imagem)):                                      
+                        sum = imagem[i]
+                        sum = str(sum)
+                        saida.write(sum)
+                        saida.write("\n") 
+
+                elif (self.particao[2] == 'pbm'):
+                    linha = entrada.readline() # P1
+                    linha = entrada.readline() # Comentário
+                    linha = entrada.readline() # Dimensões da imagem
+                    dimensoes = linha.split() # Lista com as dimensões
+                    largura = int(dimensoes[0])
+                    altura = int(dimensoes[1])
+                    dimensoes = np.asarray(dimensoes, dtype=int) # Converte a lista para um array
+                    linhas = entrada.readlines() # lê todo o restante do arquivo
+                    linhas = [x.strip() for x in linhas] # remove o \n do final de todas as linhas
+
+                    def concatenaLista(list):
+                        result = ""
+                        for element in list:
+                            result = result + str(element)
+                        return result
+
+                    #concatena todos os elementos em uma única string
+                    longstring = concatenaLista(linhas)
+                    #converte a string longa para um array de uma dimensão
+                    imagem = np.array(list(longstring))
+                    #muda a forma do array de [altura*largura, 1] para [altura, largura]
+                    imagem = np.reshape(imagem, [dimensoes[1], dimensoes[0]])
+                    #converte a matriz para inteiro
+                    imagem = imagem.astype(int)
+
+                    #escrevendo a imagem cópia
+                    saida.write("P1\n")
+                    saida.write("#Criado por Gideone\n")
+                    saida.write(str(largura))
+                    saida.write(" ")
+                    saida.write(str(altura))
+                    saida.write("\n")                    
+
+                    for i in range(len(imagem)):
+                        for j in range(len(imagem[1])):
+                            saida.write(str(imagem[i][j]))
+                            saida.write("\n")
+
+                #fechar os dois arquivos.
+                entrada.close()
+                saida.close()                
+                print("Aquivo copiado com sucesso")
+            except shutil.SameFileError:
+                print("Arquivo de origem e destino sao iguais")
+            except IsADirectoryError:
+                print("O destino é um diretorio")
+            except PermissionError:
+                print("Permissão negada")
+            except:
+                print("Erro ao copiar imagem")
