@@ -13,12 +13,12 @@ class MyWindow(QMainWindow):
         super(MyWindow, self).__init__()
         self.setup_main_window()
         self.initUI() 
-
+        
     def setup_main_window(self):
         self.x = 640
         self.y = 480
-        self.showMaximized()
         self.setMinimumSize(QSize(self.x, self.y))
+        self.showMaximized()
         self.setWindowTitle("PDI - Processamento Digital de Imagens")
         self.wid = QWidget(self)
         self.setCentralWidget(self.wid)
@@ -150,7 +150,7 @@ class MyWindow(QMainWindow):
         self.layout.setRowStretch(0, 0)
         self.layout.setRowStretch(1, 1)
         self.layout.setRowStretch(2, 0)
-
+    
     #Metodos para ação dos botões
     def apagar_mensagem(self):
         self.barradestatus.clearMessage()
@@ -159,10 +159,10 @@ class MyWindow(QMainWindow):
         #self.barradestatus.showMessage("Você clicou na Sobre")
         self.msg = QMessageBox()
         self.msg.setIcon(QMessageBox.Information)
-        self.msg.setText("Gideone Clementino da Silva")
+        self.msg.setText("Aplicativo para aplicação de filtros")
         self.msg.setWindowTitle("Sobre")
-        self.msg.setInformativeText("Santa Vitoria - MG | 29 de Junho de 2020")
-        self.msg.setDetailedText("Aplicativo para transformações Gaussiana, sharpen e sobel")
+        self.msg.setInformativeText("Santa Vitoria - MG | 07 de Agosto de 2020")
+        self.msg.setDetailedText("Criado por Gideone Clementino da Silva" + "\n" + "Link aula abaixo" + "\n" + "https://youtu.be/aAzlDi474e0")
         self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         self.msg.exec_()
         self.reply = self.msg.clickedButton()
