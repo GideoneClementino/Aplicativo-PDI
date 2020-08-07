@@ -375,7 +375,6 @@ class MyWindow(QMainWindow):
             self.erro_message()
 
     def transform_filtro_logaritmo(self):
-        self.startProgress()
         self.entrada = self.endereco1
         string = self.endereco1
         self.particao = string.rpartition('.')
