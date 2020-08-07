@@ -17,6 +17,7 @@ class MyWindow(QMainWindow):
     def setup_main_window(self):
         self.x = 640
         self.y = 480
+        self.showMaximized()
         self.setMinimumSize(QSize(self.x, self.y))
         self.setWindowTitle("PDI - Processamento Digital de Imagens")
         self.wid = QWidget(self)
